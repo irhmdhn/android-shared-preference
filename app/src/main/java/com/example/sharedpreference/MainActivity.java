@@ -8,6 +8,7 @@ import android.os.Handler;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
@@ -16,6 +17,7 @@ public class MainActivity extends AppCompatActivity {
     private SharedPrefManager sharedPrefManager;
     private EditText etUsername, etPassword;
     private Button btnLogin;
+    private ProgressBar pbLogin;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,6 +32,7 @@ public class MainActivity extends AppCompatActivity {
             etUsername = findViewById(R.id.etUsername);
             etPassword = findViewById(R.id.etPassword);
             btnLogin = findViewById(R.id.btnLogin);
+            pbLogin = findViewById(R.id.pbLogin);
             login();
         }
     }
@@ -45,7 +48,11 @@ public class MainActivity extends AppCompatActivity {
                 final String username = etUsername.getText().toString();
                 final String password = etPassword.getText().toString();
 
+                pbLogin.setVisibility(View.VISIBLE);
+
                 if (username.isEmpty() || password.isEmpty()){
+                    pbLogin.setVisibility(View.GONE);
+
                     Toast.makeText(MainActivity.this, "Username dan pasword tidak boleh kosong", Toast.LENGTH_SHORT).show();
                 } else {
                     handler.postDelayed(new Runnable() {
@@ -60,6 +67,7 @@ public class MainActivity extends AppCompatActivity {
                                 finishAffinity();
                                 startActivity(i);
                             } else {
+                                pbLogin.setVisibility(View.GONE);
                                 Toast.makeText(MainActivity.this,"Username atau password salah", Toast.LENGTH_SHORT).show();
                             }
                         }
